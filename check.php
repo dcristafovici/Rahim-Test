@@ -1,20 +1,36 @@
 
 <?php
+define ('SITE_ROOT', 'C:\OSPanel\domains\rahim/');
 $host = 'localhost'; // адрес сервера 
 $database = 'rahim'; // имя базы данных
 $user = 'mysql'; // имя пользователя
 $password = 'mysql'; // пароль
 $mysql = new mysqli($host,  $user, $password, $database);
 
-$post = $_GET;
+$post = $_POST;
 
-$name = $_GET['name'];
-$text = $_GET['text'];
-$fulltext = $_GET['fulltext'];
-$image = $_GET['image'];
-$category = $_GET['category'];
+$name = $_POST['name'];
+$text = $_POST['text'];
+$fulltext = $_POST['fulltext'];
+$image = $_POST['userfile'];
+$category = $_POST['category'];
+$status = $_POST['status'];
+$stat;
 
 
-$mysql->query("INSERT INTO `product` (`name`, `description`, `description_full`, `image`, `category_id`) VALUES ('$name', '$text', '$fulltext', '$image', '$category') ");
+$uploaddir = SITE_ROOT.'/uploads/';
+$uploadfile = $uploaddir . basename($_FILES['userfile']['name']);
+if (move_uploaded_file($_FILES['userfile']['tmp_name'], $uploadfile)) {
+  
+}
+
+if($status){
+  $stat = true;
+}
+else{
+  $stat = false;
+}
+
+$mysql->query("INSERT INTO `product` (`name`, `description`, `description_full`, `image`, `category_id`, `status`) VALUES ('$name', '$text', '$fulltext', '$uploadfile', '$category' ,'$stat') ");
 
 ?>

@@ -60,13 +60,14 @@ $result = $mysql->query($sqlProd);
 
     <div class="product-item">
       <div class="prod-photo">
-        <img src="images/<?php echo $row['image']?>" alt="">  
+        <img src="<?php echo $row['image']?>" alt="">  
       </div>
       <div class="prod-content">
       <div class="prod-name"><?php echo $row['name']?></div>
       <div class="prod-description"><?php echo $row['description']?></div>
       <div class="prod-category"><?php echo $row['category_id']?></div>
       <a class="btn btn-primary" href="/edit.php?prod=<?php echo $row['id']?>" role="button">Редактировать</a>
+      <a href='remove.php/?prod=<?php echo $row['id']?>' class="btn btn-danger">Удалить</a>
       </div>
     </div>
 

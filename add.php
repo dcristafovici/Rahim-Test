@@ -26,7 +26,7 @@ $result = $mysql->query($sqlCat);
 
   <h1>Форма добавления товара</h1>
 
-    <form  action='check.php' class="form">
+    <form enctype="multipart/form-data" method='POST'  action='check.php' class="form" >
 
       <div class="form-group">
         <input type="text" required name='name' placeholder='Имя'>
@@ -38,8 +38,9 @@ $result = $mysql->query($sqlCat);
         <textarea name='fulltext' placeholder='Полное описание'></textarea>
       </div>
       <div class="form-group">
+        <!-- <input type="hidden" name="MAX_FILE_SIZE" value="30000" />  Не загружается если присуствует эта строка. Массив files пустой-->
         <label for="">Изображения</label>
-        <input type="file" name='image'>
+        <input type="file" name='userfile'>
       </div>
 
       <div class="form-group">
@@ -51,6 +52,10 @@ $result = $mysql->query($sqlCat);
         
         </select>
 
+      </div>
+
+      <div class="form-group">
+          <input type="checkbox" name='status'> Опубликовать на сайте?
       </div>
 
       <div class="form-group">

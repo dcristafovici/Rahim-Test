@@ -45,3 +45,11 @@ label{
   box-sizing: border-box;
   padding-bottom: 20px
 }
+
+.product-remove{
+  height: 100vh;
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+  align-items: center;
+}
