@@ -1,3 +1,20 @@
+
+<?php
+$host = 'localhost'; // адрес сервера 
+$database = 'rahim'; // имя базы данных
+$user = 'mysql'; // имя пользователя
+$password = 'mysql'; // пароль
+$mysql = new mysqli($host,  $user, $password, $database);
+
+
+$sqlProd = "SELECT id, name, description, description_full, image, category_id  FROM product";
+$sqlCat  = "SELECT * FROM category";
+
+$resultCat = $mysql->query($sqlCat);
+$result = $mysql->query($sqlProd);
+
+?>
+
 <!DOCTYPE html>
 <html lang="en">
 <head>
@@ -11,106 +28,49 @@
 
 <div class="container">
 
+<h1>Полезные ссылки</h1>
+<ul class='list-group'>
+  <li class='list-group-item'>
+    <a class="badge badge-primary"" href="add.php" role="button">Добавить продукт</a>
+  </li>
+  <li class='list-group-item'>
+    <a class="badge badge-primary"" href="addcat.php" role="button">Добавить категорию</a>
+  </li>
+</ul>
+
+
+<h1>Список категории</h1>
+
+<ul class="list-group">
+  <?php while($rowcat = $resultCat->fetch_assoc()): ?>
+    <li class="list-group__item">
+    <a href="/category.php?cat=<?php echo $rowcat['id']?>" class="badge badge-primary"><?php echo $rowcat['name']?></a></li>
+  <?php endwhile; ?>
+</ul>
+
 <h1>Тут я буду выводить все продукты( аналог catalog.php)</h1>
 
 <div class="product-items">
 
-  <div class="product-item">
-    <div class="prod-photo">
-      <img src="images/s1.jpg" alt="">  
-    </div>
-    <div class="prod-name">Оружие №1</div>
-    <div class="prod-description">Описание для оружие №1</div>
-    <div class="prod-category">Категория №1</div>
 
-  </div>
 
   
-  <div class="product-item">
-    <div class="prod-photo">
-      <img src="images/s2.jpg" alt="">  
-    </div>
-    <div class="prod-name">Оружие №2</div>
-    <div class="prod-description">Описание для оружие №2</div>
-    <div class="prod-category">Категория №2</div>
-    
-  </div>
+ 
+  <?php while($row = $result->fetch_assoc()): ?>
 
-  
-  <div class="product-item">
-    <div class="prod-photo">
-      <img src="images/s3.jpg" alt="">  
+    <div class="product-item">
+      <div class="prod-photo">
+        <img src="images/<?php echo $row['image']?>" alt="">  
+      </div>
+      <div class="prod-content">
+      <div class="prod-name"><?php echo $row['name']?></div>
+      <div class="prod-description"><?php echo $row['description']?></div>
+      <div class="prod-category"><?php echo $row['category_id']?></div>
+      <a class="btn btn-primary" href="/edit.php?prod=<?php echo $row['id']?>" role="button">Редактировать</a>
+      </div>
     </div>
-    <div class="prod-name">Оружие №3</div>
-    <div class="prod-description">Описание для оружие №3</div>
-    <div class="prod-category">Категория №3</div>
-    
-  </div>
 
-  
-  <div class="product-item">
-    <div class="prod-photo">
-      <img src="images/s4.jpg" alt="">  
-    </div>
-    <div class="prod-name">Оружие №4</div>
-    <div class="prod-description">Описание для оружие №4</div>
-    <div class="prod-category">Категория №4</div>
-    
-  </div>
-
-  <div class="product-item">
-    <div class="prod-photo">
-      <img src="images/s5.jpg" alt="">  
-    </div>
-    <div class="prod-name">Оружие №5</div>
-    <div class="prod-description">Описание для оружие №5</div>
-    <div class="prod-category">Категория №5</div>
-    
-  </div>
-
-  
-  <div class="product-item">
-    <div class="prod-photo">
-      <img src="images/s6.jpg" alt="">  
-    </div>
-    <div class="prod-name">Оружие №6</div>
-    <div class="prod-description">Описание для оружие №6</div>
-    <div class="prod-category">Категория №6</div>
-    
-  </div>
-
-  
-  <div class="product-item">
-    <div class="prod-photo">
-      <img src="images/s7.jpg" alt="">  
-    </div>
-    <div class="prod-name">Оружие №7</div>
-    <div class="prod-description">Описание для оружие №7</div>
-    <div class="prod-category">Категория №7</div>
-    
-  </div>
-
-  
-  <div class="product-item">
-    <div class="prod-photo">
-      <img src="images/s8.jpg" alt="">  
-    </div>
-    <div class="prod-name">Оружие №8</div>
-    <div class="prod-description">Описание для оружие №8</div>
-    <div class="prod-category">Категория №8</div>
-    
-  </div>
-
-  
-  <div class="product-item">
-    <div class="prod-photo">
-      <img src="images/s9.jpg" alt="">  
-    </div>
-    <div class="prod-name">Оружие №9</div>
-    <div class="prod-description">Описание для оружие №9</div>
-    <div class="prod-category">Категория №9</div>
-    
-  </div>
+  <?php endwhile; ?>
 
 </div>
 </div>

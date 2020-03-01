@@ -34,3 +34,14 @@ h1{
 label{
   display: block !important;
 }
+
+.prod-category{
+  margin-top: 15px;
+  padding-bottom: 15px;
+}
+.prod-content{
+  padding-left: 15px; 
+  padding-right: 15px;
+  box-sizing: border-box;
+  padding-bottom: 20px
+}
