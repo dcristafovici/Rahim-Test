@@ -55,7 +55,7 @@ $result = $mysql->query($sqlCat);
       </div>
 
       <div class="form-group">
-          <input type="checkbox" name='status'> Опубликовать на сайте?
+          <input type="checkbox" checked name='status'> Опубликовать на сайте?
       </div>
 
       <div class="form-group">

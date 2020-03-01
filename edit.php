@@ -24,15 +24,25 @@ $result = $mysql->query($sqlEdit);
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
   <title>Document</title>
   <link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/bootstrap/4.4.1/css/bootstrap.min.css" integrity="sha384-Vkoo8x4CGsO3+Hhxv8T/Q5PaXtkKtu6ug5TOeNV6gBiFeWPGFN9MuhOf23Q9Ifjh" crossorigin="anonymous">
-  <link rel='stylesheet' href='css/main.css'>
+  <link rel='stylesheet' href='../css/main.css'>
 </head>
 <body>
+<style>
+.form-group{
+  width: 350px;
+}
 
+.form-group input[type='text'],
+.form-group textarea{
+  width: 100%;
+}
+</style>
 <div class="container">
 <?php while($row = $result->fetch_assoc()): ?>
   <h1>Редактировать <?php echo $row['name']?></h1>
+  <?php $status = (int)$row['status']; ?>
 
-    <form  action='check.php' class="form">
+    <form enctype="multipart/form-data" method='POST'  action='checkedit.php?prod=<?php echo $row['id']?>' class="form">
 
       <div class="form-group">
         <input type="text" required name='name' value='<?php echo $row['name']?>' placeholder='Имя'>
@@ -41,22 +51,16 @@ $result = $mysql->query($sqlEdit);
         <input type="text" name='text' value='<?php echo $row['description']?>'  required placeholder='Описание'>
       </div>
       <div class="form-group">
-        <textarea name='fulltext' value='<?php echo $row['description_full']?>'  placeholder='Полное описание'></textarea>
+        <textarea name='fulltext'  placeholder='Полное описание'><?php echo $row['description_full']?></textarea>
       </div>
       <div class="form-group">
         <label for="">Изображения</label>
         <input type="file" name='image'>
       </div>
 
+
       <div class="form-group">
-
-        <select name='category'>
-        <?php while($row = $result->fetch_assoc()): ?>
-            <option value=<?php echo $row['id']?>><?php echo $row['name']?></option>
-          <?php endwhile; ?>
-        
-        </select>
-
+        <input type="checkbox" <?php if($status == true): ?> checked <?php endif; ?> name='status'> Опубликовать на сайте?
       </div>
 
       <div class="form-group">

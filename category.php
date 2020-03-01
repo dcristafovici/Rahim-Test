@@ -37,7 +37,7 @@ $resultCat = $mysql->query($sqlCat);
 
       <div class="product-item">
         <div class="prod-photo">
-          <img src="images/<?php echo $row['image']?>" alt="">  
+          <img src="<?php echo $row['image']?>" alt="">  
         </div>
         <div class="prod-content">
         <div class="prod-name"><?php echo $row['name']?></div>

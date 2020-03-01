@@ -1,10 +1,14 @@
 
-<?
+<?php
 $host = 'localhost'; // адрес сервера 
 $database = 'rahim'; // имя базы данных
 $user = 'mysql'; // имя пользователя
 $password = 'mysql'; // пароль
 $mysql = new mysqli($host,  $user, $password, $database);
+
+
+$url = "http://$_SERVER[HTTP_HOST]$_SERVER[REQUEST_URI]";
+$parse = parse_url($url);
 
 $post = $_POST;
 
@@ -16,8 +20,11 @@ $category = $_POST['category'];
 $status = $_POST['status'];
 $stat;
 
+$prodID = $_GET['prod'];
+$prodID = (int)$prodID;
 
-$uploaddir =  './uploads/';
+
+$uploaddir =  $_SERVER['DOCUMENT_ROOT'].'/uploads/';
 $uploadfile = $uploaddir . basename($_FILES['userfile']['name']);
 if (move_uploaded_file($_FILES['userfile']['tmp_name'], $uploadfile)) {
   
@@ -30,8 +37,8 @@ else{
   $stat = false;
 }
 
-$mysql->query("INSERT INTO `product` (`name`, `description`, `description_full`, `image`, `category_id`, `status`) VALUES ('$name', '$text', '$fulltext', '$uploadfile', '$category' ,'$stat') ");
 
+$mysql->query("UPDATE product SET name='$name', description='$text', description_full='$fulltext', status='$stat' WHERE id=$prodID ");
 ?>
 
 
@@ -46,9 +53,26 @@ $mysql->query("INSERT INTO `product` (`name`, `description`, `description_full`,
   <link rel='stylesheet' href='css/main.css'>
 </head>
 <body>
+<style>
+  .product-remove{
+    height: 100vh;
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+    align-items: center;
+  } 
+  .product-remove h1{
+    margin-bottom: 30px
+  }
+  .container{
+    text-align: center
+  }
+  </style>
 
 <div class="container">
-  <a class="badge badge-primary"" href="add.php" role="button">Добавить еще продукт</a>
+  <h1>Продукт обновлен</h1>
+  <a class="btn btn-primary" href="http://<?php echo $parse['host']?>" role="button">НА главную</a>
+
 </div>
 
 <script src="https://code.jquery.com/jquery-3.4.1.slim.min.js" integrity="sha384-J6qa4849blE2+poT4WnyKhv5vZF5SrPo0iEjwBvKU7imGFAV0wwj1yYfoRSJoZ+n" crossorigin="anonymous"></script>

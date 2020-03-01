@@ -7,7 +7,7 @@ $password = 'mysql'; // пароль
 $mysql = new mysqli($host,  $user, $password, $database);
 
 
-$sqlProd = "SELECT id, name, description, description_full, image, category_id  FROM product";
+$sqlProd = "SELECT id, name, description, description_full, image, category_id, status  FROM product";
 $sqlCat  = "SELECT * FROM category";
 
 $resultCat = $mysql->query($sqlCat);
@@ -57,19 +57,21 @@ $result = $mysql->query($sqlProd);
   
  
   <?php while($row = $result->fetch_assoc()): ?>
-
-    <div class="product-item">
-      <div class="prod-photo">
-        <img src="<?php echo $row['image']?>" alt="">  
+    <?php $status = (int)$row['status']; ?>
+    <?php if($status == true): ?>
+      <div class="product-item">
+        <a href='product.php?prod=<?php echo $row['id']?>' class="prod-photo">
+          <img src="<?php echo $row['image']?>" alt="">  
+        </a>
+        <div class="prod-content">
+        <a href='product.php?prod=<?php echo $row['id']?>' class="prod-name"><?php echo $row['name']?></a>
+        <div class="prod-description"><?php echo $row['description']?></div>
+        <div class="prod-category"><?php echo $row['category_id']?></div>
+        <a class="btn btn-primary" href="/edit.php?prod=<?php echo $row['id']?>" role="button">Редактировать</a>
+        <a href='remove.php/?prod=<?php echo $row['id']?>' class="btn btn-danger">Удалить</a>
+        </div>
       </div>
-      <div class="prod-content">
-      <div class="prod-name"><?php echo $row['name']?></div>
-      <div class="prod-description"><?php echo $row['description']?></div>
-      <div class="prod-category"><?php echo $row['category_id']?></div>
-      <a class="btn btn-primary" href="/edit.php?prod=<?php echo $row['id']?>" role="button">Редактировать</a>
-      <a href='remove.php/?prod=<?php echo $row['id']?>' class="btn btn-danger">Удалить</a>
-      </div>
-    </div>
+    <?php endif; ?>
 
   <?php endwhile; ?>
 

@@ -1,40 +1,42 @@
 
-<?
+<?php
 $host = 'localhost'; // адрес сервера 
 $database = 'rahim'; // имя базы данных
 $user = 'mysql'; // имя пользователя
 $password = 'mysql'; // пароль
 $mysql = new mysqli($host,  $user, $password, $database);
 
-$post = $_POST;
+$prodID = $_GET['prod'];
+$prodID = (int)$prodID;
 
-$name = $_POST['name'];
-$text = $_POST['text'];
-$fulltext = $_POST['fulltext'];
-$image = $_POST['userfile'];
-$category = $_POST['category'];
-$status = $_POST['status'];
-$stat;
+$sqlProd = "SELECT * FROM product WHERE id = $prodID LIMIT 1";
+$sqlCat  = "SELECT * FROM category";
 
-
-$uploaddir =  './uploads/';
-$uploadfile = $uploaddir . basename($_FILES['userfile']['name']);
-if (move_uploaded_file($_FILES['userfile']['tmp_name'], $uploadfile)) {
-  
-}
-
-if($status){
-  $stat = true;
-}
-else{
-  $stat = false;
-}
-
-$mysql->query("INSERT INTO `product` (`name`, `description`, `description_full`, `image`, `category_id`, `status`) VALUES ('$name', '$text', '$fulltext', '$uploadfile', '$category' ,'$stat') ");
+$resultCat = $mysql->query($sqlCat);
+$result = $mysql->query($sqlProd);
 
 ?>
+<style>
 
+.device-item{
+  width: 800px;
+  border: 1px solid gray;
+  padding: 20px;
+}
+.device-item img{
+  max-width: 100%;
+}
+.device-item__name{
+  font-size: 20px;
+  font-weight: bold;
+  margin-bottom: 25px
+}
+.device-item__text{
+  font-size: 18px;
+  margin-bottom: 20px;
+}
 
+</style>
 
 <!DOCTYPE html>
 <html lang="en">
@@ -47,10 +49,23 @@ $mysql->query("INSERT INTO `product` (`name`, `description`, `description_full`,
 </head>
 <body>
 
+
 <div class="container">
-  <a class="badge badge-primary"" href="add.php" role="button">Добавить еще продукт</a>
+<?php while($row = $result->fetch_assoc()): ?>
+
+<div class="device-item">
+
+  <div class="device-item__photo">
+    <img src="<?php echo $row['image']?>" alt="">
+  </div>
+  <div class="device-item__name"><?php echo $row['name']?></div>
+  <div class="device-item__text"><?php echo $row['description']?></div>
+  <div class="device-item__fulltext"><?php echo $row['description_full']?></div>
+  <div class="device-item__catg"><?php echo $row['category_id']?></div>
 </div>
 
+<?endwhile; ?>
+</div>
 <script src="https://code.jquery.com/jquery-3.4.1.slim.min.js" integrity="sha384-J6qa4849blE2+poT4WnyKhv5vZF5SrPo0iEjwBvKU7imGFAV0wwj1yYfoRSJoZ+n" crossorigin="anonymous"></script>
 <script src="https://cdn.jsdelivr.net/npm/popper.js@1.16.0/dist/umd/popper.min.js" integrity="sha384-Q6E9RHvbIyZFJoft+2mJbHaEWldlvI9IOYy5n3zV9zzTtmI3UksdQRVvoxMfooAo" crossorigin="anonymous"></script>
 <script src="https://stackpath.bootstrapcdn.com/bootstrap/4.4.1/js/bootstrap.min.js" integrity="sha384-wfSDF2E50Y2D1uUdj0O3uMBJnjuUD4Ih7YwaYd1iqfktj0Uod8GCExl3Og8ifwB6" crossorigin="anonymous"></script>
